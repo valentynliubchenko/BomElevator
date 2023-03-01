@@ -29,14 +29,13 @@ id: int
 
 entity SequenceOfStops {
 id: int
-stopFlors: int[]
+stopFloors: int[]
 currentFloor: int
 }
 
 Direction o-- SequenceOfStops
 
-SequenceOfStops "1" o-- "1" Cabin
-SequenceOfStops o-- "state" State
+SequenceOfStops "0..1" o-- "1" Cabin
 
 
 enum State{
@@ -117,7 +116,6 @@ MiddleFloor ..|> FloorWithDownButton
 
 
 "Controller" "1" o-- "0..N sequenceOfStops" SequenceOfStops
-"Controller"  o-- "doorState" DoorState
 
 Direction "direction" --o "FloorButton"
 
@@ -125,5 +123,31 @@ Cabin "1" o-- "M" "CabinButton"
 ButtonState "isPressed " --o "FloorButton"
 ButtonState "isPressed " --o "CabinButton"
 
-'Maksym Mitkov`s changing
+entity Engine {
+}
+
+enum EngineState {
+  RUN_LEFT
+  RUN_RIGHT
+  OFF
+}
+
+Engine o-- EngineState
+
+entity Shaft {
+  cabinPosition: int
+}
+
+Shaft o-- Engine
+
+entity Hous {
+}
+
+hous o-- Floor
+hous o-- Shaft
+
+Controller o-- hous
+Shaft o-- Cabin
+
+Cabin o-- DoorState
 @enduml
