@@ -1,0 +1,129 @@
+@startuml
+entity "Controller"{
+
+action()
+floors: [] Floor
+doorOpeningRestriction()
+findNearestCabin()
+
+checkOverweight()
+moveCabin()
+displayOverweight()
+checkCabinDirection()
+openDoor()
+closeDoor()
+displayCurrentPosition()
+stopCabin()
+}
+
+enum DoorState{
+Opened
+Closed
+}
+
+"Controller" o-- "floors" Floor
+
+entity Cabin{
+id: int
+}
+
+entity SequenceOfStops {
+id: int
+stopFlors: int[]
+currentFloor: int
+}
+
+Direction o-- SequenceOfStops
+
+SequenceOfStops "1" o-- "1" Cabin
+SequenceOfStops o-- "state" State
+
+
+enum State{
+GoingUp
+GoingDown
+Staying
+}
+
+enum Direction{
+Upwards
+Downwards
+}
+
+enum ButtonState{
+PRESSED
+UNPRESSED
+}
+
+entity "CabinButton"{
+cabinId: int
+buttonValue: int
+}
+
+
+abstract "FloorButton"{
+  press(): void
+  unpress(): void
+  isPressed(): bool
+}
+
+entity "Up FloorButton" {
+}
+
+entity "Down FloorButton" {
+}
+
+"Up FloorButton" --|> "FloorButton"
+"Down FloorButton" --|> "FloorButton"
+
+abstract Floor{
+  id: int
+  visit(): void
+}
+
+interface FloorWithUpButton {
+  pressUpButton(): void
+}
+
+"Up FloorButton" "upButton" --o FloorWithUpButton
+
+interface FloorWithDownButton {
+ pressDownButton(): void
+}
+
+"Down FloorButton" "downButton" --o FloorWithDownButton
+
+entity FirstFloor {
+
+}
+
+FirstFloor --|> Floor
+FirstFloor ..|> FloorWithUpButton
+
+entity LastFloor {
+
+}
+
+LastFloor --|> Floor
+LastFloor ..|> FloorWithDownButton
+
+entity MiddleFloor {
+
+}
+
+MiddleFloor --|> Floor
+MiddleFloor ..|> FloorWithUpButton
+MiddleFloor ..|> FloorWithDownButton
+
+
+"Controller" "1" o-- "0..N sequenceOfStops" SequenceOfStops
+"Controller"  o-- "doorState" DoorState
+
+Direction "direction" --o "FloorButton"
+
+Cabin "1" o-- "M" "CabinButton"
+ButtonState "isPressed " --o "FloorButton"
+ButtonState "isPressed " --o "CabinButton"
+
+
+@enduml
