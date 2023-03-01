@@ -125,5 +125,5 @@ Cabin "1" o-- "M" "CabinButton"
 ButtonState "isPressed " --o "FloorButton"
 ButtonState "isPressed " --o "CabinButton"
 
-
+'Maksym Mitkov`s changing
 @enduml
