@@ -145,4 +145,6 @@ Shaft "1" o-- "1 cabin" Cabin
 Cabin o-- "doorState" DoorState
 
 SequenceOfStops "0..N SequenceOfStops" --o "1" Shaft
+
+'testVlad
 @enduml
