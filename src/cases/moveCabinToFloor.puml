@@ -1,0 +1,12 @@
+@startuml
+
+actor MoveCabinCommand
+MoveCabinCommand -> Engine: startLeft
+activate Engine
+Engine -> Cabin: goDown
+Cabin -> Shaft: comeToFloor(florid: int)
+Shaft --> CommandService: getCommand("COME2FLOOR", floor: int)
+
+deactivate Engine
+
+@enduml

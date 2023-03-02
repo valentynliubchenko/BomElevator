@@ -1,0 +1,12 @@
+@startuml
+
+actor invoker
+
+invoker -> Move2FloorCommand: execute
+activate Move2FloorCommand
+Move2FloorCommand -> Controller: moveCabinToFloor(flor: int)
+Controller -> SequenceOfStops: new
+Controller -\ Engine: startDown
+deactivate Move2FloorCommand
+
+@enduml

@@ -2,7 +2,6 @@
 entity "Controller"{
 
 action()
-floors: [] Floor
 doorOpeningRestriction()
 findNearestCabin()
 
@@ -20,8 +19,6 @@ enum DoorState{
 Opened
 Closed
 }
-
-"Controller" o-- "floors" Floor
 
 entity Cabin{
 id: int

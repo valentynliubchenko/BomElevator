@@ -1,0 +1,12 @@
+@startuml
+
+actor invoker
+
+invoker -> StopCabinCommand: execute
+activate StopCabinCommand
+StopCabinCommand -> Controller: stopCabin()
+Controller -> Engine: stop
+Controller -> Cabin: openDoor
+deactivate StopCabinCommand
+
+@enduml

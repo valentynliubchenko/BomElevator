@@ -1,0 +1,12 @@
+@startuml
+
+actor Passenger
+
+Passenger ->  FloorService: pressDownButton
+activate FloorService
+FloorService -> CommandService: getCommand("MOVE2FLOOR", floor: int, direction: Direction)
+FloorService <-- CommandService: Move2FloorCommand
+FloorService -> Move2FloorCommand: execute
+deactivate FloorService
+
+@enduml
