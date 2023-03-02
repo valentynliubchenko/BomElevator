@@ -33,9 +33,7 @@ stopFloors: int[]
 currentFloor: int
 }
 
-Direction o-- SequenceOfStops
-
-SequenceOfStops "0..1" o-- "1" Cabin
+Direction "direction" --o SequenceOfStops
 
 
 enum State{
@@ -67,9 +65,11 @@ abstract "FloorButton"{
 }
 
 entity "Up FloorButton" {
+  id: int
 }
 
 entity "Down FloorButton" {
+ id: int
 }
 
 "Up FloorButton" --|> "FloorButton"
@@ -93,61 +93,56 @@ interface FloorWithDownButton {
 "Down FloorButton" "downButton" --o FloorWithDownButton
 
 entity FirstFloor {
-
+  id: int
 }
 
 FirstFloor --|> Floor
 FirstFloor ..|> FloorWithUpButton
 
 entity LastFloor {
-
+  id: int
 }
 
 LastFloor --|> Floor
 LastFloor ..|> FloorWithDownButton
 
 entity MiddleFloor {
-
+  id: int
 }
 
 MiddleFloor --|> Floor
 MiddleFloor ..|> FloorWithUpButton
 MiddleFloor ..|> FloorWithDownButton
 
-
-"Controller" "1" o-- "0..N sequenceOfStops" SequenceOfStops
-
 Direction "direction" --o "FloorButton"
 
-Cabin "1" o-- "M" "CabinButton"
+Cabin "1" o-- "N cabinButtons" "CabinButton"
 ButtonState "isPressed " --o "FloorButton"
 ButtonState "isPressed " --o "CabinButton"
 
 entity Engine {
+  id: int
 }
 
-enum EngineState {
-  RUN_LEFT
-  RUN_RIGHT
-  OFF
-}
-
-Engine o-- EngineState
+Engine o-- "state" State
 
 entity Shaft {
   cabinPosition: int
 }
 
-Shaft o-- Engine
+Shaft "1" o-- "1 engine" Engine
 
-entity Hous {
+entity House {
+  id: int
 }
 
-hous o-- Floor
-hous o-- Shaft
+Shaft "1" o-- "N floors" Floor
+House "1" o-- "N shafts" Shaft
 
-Controller o-- hous
-Shaft o-- Cabin
+Controller "1 controller" --o "1" House
+Shaft "1" o-- "1 cabin" Cabin
 
-Cabin o-- DoorState
+Cabin o-- "doorState" DoorState
+
+SequenceOfStops "0..N SequenceOfStops" --o "1" Shaft
 @enduml
