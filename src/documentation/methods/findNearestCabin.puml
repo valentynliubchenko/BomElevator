@@ -1,0 +1,10 @@
+@startuml
+
+actor PressFloorButton
+
+PressFloorButton -> Controller: findNearestCabin((floor: int)
+activate Controller
+Controller -> SequenceOfStops: add stop
+SequenceOfStops -> Controller: successful
+deactivate Controller
+@enduml

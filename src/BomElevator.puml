@@ -8,7 +8,6 @@ findNearestCabin()
 checkOverweight()
 moveCabin()
 displayOverweight()
-checkCabinDirection()
 openDoor()
 closeDoor()
 displayCurrentPosition()
@@ -16,8 +15,8 @@ stopCabin()
 }
 
 enum DoorState{
-Opened
-Closed
+OPENED
+CLOSED
 }
 
 entity Cabin{
@@ -34,14 +33,14 @@ Direction "direction" --o SequenceOfStops
 
 
 enum State{
-GoingUp
-GoingDown
-Staying
+GOING_UP
+GOING_DOWN
+STAYING
 }
 
 enum Direction{
-Upwards
-Downwards
+UPWARDS
+DOWNWARDS
 }
 
 enum ButtonState{
@@ -57,7 +56,6 @@ buttonValue: int
 
 abstract "FloorButton"{
   press(): void
-  unpress(): void
   isPressed(): bool
 }
 

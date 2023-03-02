@@ -1,0 +1,15 @@
+@startuml
+
+actor Passenger
+
+Passenger ->  FloorButton: pressDownButton
+FloorButton -> Controller: findNearestCabin(floor: int)
+
+activate Controller
+
+Controller -> CommandService: getCommand("moveCabin", floor: int)
+Controller <-- CommandService: moveCabinCommand
+Controller -> moveCabinCommand: execute
+deactivate Controller
+
+@enduml

@@ -1,0 +1,12 @@
+@startuml
+
+actor Invoker
+
+Invoker -> checkCabinDirectionCommand: execute
+activate checkCabinDirectionCommand
+checkCabinDirectionCommand -> Controller: checkCabinDirectionCommand(Direction: direction)
+Controller -> Controller: checkCabinDirection()
+Controller -> Shaft:
+deactivate checkCabinDirectionCommand
+
+@enduml
