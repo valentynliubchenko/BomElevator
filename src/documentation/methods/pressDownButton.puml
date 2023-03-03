@@ -1,0 +1,9 @@
+@startuml
+
+actor Passenger
+
+Passenger -> FloorButton: pressDownButton()
+
+FloorButton -> FloorButton: change ButtonState to PRESSED
+
+@enduml

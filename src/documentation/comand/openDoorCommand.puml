@@ -1,0 +1,12 @@
+@startuml
+
+actor Controller
+
+Controller -> openDoorCommand: execute
+activate openDoorCommand
+openDoorCommand -> Controller: doorOpeningRestriction()
+Controller --> openDoorCommand: successful
+openDoorCommand -> Cabin: change doorState to OPENED
+deactivate openDoorCommand
+
+@enduml

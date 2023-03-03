@@ -1,0 +1,12 @@
+@startuml
+
+actor Controller
+
+Controller -> stopCabinCommand: execute
+activate stopCabinCommand
+stopCabinCommand -> Engine: change engineState to STAYING
+stopCabinCommand -> SequenceOfStops: remove stop
+stopCabinCommand -> FloorButton: change ButtonState to UNPRESSED
+deactivate stopCabinCommand
+
+@enduml

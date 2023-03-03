@@ -1,0 +1,10 @@
+@startuml
+
+actor Controller
+
+Controller -> moveCabinCommand: execute
+activate moveCabinCommand
+moveCabinCommand -> Engine: change engineState to GOING_DOWN
+deactivate moveCabinCommand
+
+@enduml

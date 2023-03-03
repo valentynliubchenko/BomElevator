@@ -1,0 +1,11 @@
+@startuml
+
+actor Controller
+
+Controller -> closeDoorCommand: execute
+activate closeDoorCommand
+closeDoorCommand -> closeDoorCommand: checkOverweight()
+closeDoorCommand -> Cabin: change doorState to CLOSED
+deactivate closeDoorCommand
+
+@enduml
