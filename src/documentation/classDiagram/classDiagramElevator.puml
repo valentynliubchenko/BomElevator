@@ -1,13 +1,19 @@
 @startuml
-entity "Controller (Reciver)"{
+entity "Controller"{
+id: int
 
 action()
-floors: [] Floor
 doorOpeningRestriction()
 findNearestCabin()
+addSequence()
+removeSequence()
+private mergeSequence()
 }
 
-"Controller (Reciver)" o-- "floors" Floor
+enum DoorState{
+OPENED
+CLOSED
+}
 
 entity Cabin{
 id: int
@@ -15,49 +21,53 @@ id: int
 
 entity SequenceOfStops {
 id: int
-stopFlors: int[]
+stopFloors: int[]
 currentFloor: int
-commands: [] Command
 }
 
-Direction o-- SequenceOfStops
-
-SequenceOfStops "1" o-- "1" Cabin
-SequenceOfStops o-- "state" State
+Direction "direction" --o SequenceOfStops
 
 
-enum State{
-GoingUp
-GoingDown
-Staying
+enum EngineState{
+GOING_UP
+GOING_DOWN
+STAYING
 }
 
 enum Direction{
-Upwards
-Downwards
+UPWARDS
+DOWNWARDS
 }
 
+enum ButtonState{
+PRESSED
+UNPRESSED
+}
 
-entity "CabinButton (Invoker)"{
+entity "CabinButton"{
 cabinId: int
 buttonValue: int
+
+press(): void
+isPressed(): bool
 }
 
 
-abstract "FloorButton (Invoker)"{
+abstract "FloorButton"{
   press(): void
-  unpress(): void
   isPressed(): bool
 }
 
 entity "Up FloorButton" {
+  id: int
 }
 
 entity "Down FloorButton" {
+ id: int
 }
 
-"Up FloorButton" --|> "FloorButton (Invoker)"
-"Down FloorButton" --|> "FloorButton (Invoker)"
+"Up FloorButton" --|> "FloorButton"
+"Down FloorButton" --|> "FloorButton"
 
 abstract Floor{
   id: int
@@ -74,81 +84,95 @@ interface FloorWithDownButton {
  pressDownButton(): void
 }
 
-interface Command {
- execute()
-}
-
 "Down FloorButton" "downButton" --o FloorWithDownButton
 
 entity FirstFloor {
-
+  id: int
 }
 
 FirstFloor --|> Floor
 FirstFloor ..|> FloorWithUpButton
 
 entity LastFloor {
-
+  id: int
 }
 
 LastFloor --|> Floor
 LastFloor ..|> FloorWithDownButton
 
 entity MiddleFloor {
-
+  id: int
 }
 
 MiddleFloor --|> Floor
 MiddleFloor ..|> FloorWithUpButton
 MiddleFloor ..|> FloorWithDownButton
 
+Direction "direction" --o "FloorButton"
 
-"Controller (Reciver)" "1" o-- "0..N sequenceOfStops" SequenceOfStops
+Cabin "1" o-- "N cabinButtons" "CabinButton"
+ButtonState "isPressed " --o "FloorButton"
+ButtonState "isPressed " --o "CabinButton"
 
-Direction "direction" --o "FloorButton (Invoker)"
-
-enum ButtonState{
-PRESSED
-UNPRESSED
-}
-
-Cabin "1" o-- "M" "CabinButton (Invoker)"
-ButtonState "isPressed " --o "FloorButton (Invoker)"
-ButtonState "isPressed " --o "CabinButton (Invoker)"
-
-
-class CheckOverweightCommand{
-}
-class MoveCabinCommand{
-}
-class DisplayOverweightCommand{
-}
-class CheckCabinDirectionCommand{
-}
-class OpenDoorCommand{
-}
-class CloseDoorCommand{
-}
-class DisplayCurrentPositionnCommand{
-}
-class  StopCabinCommand{
+entity Engine {
+  id: int
 }
 
-CheckOverweightCommand  ..|> Command
+Engine o-- "engineState" EngineState
+
+entity Shaft {
+  cabinPosition: int
+}
+
+Shaft "1" o-- "1 engine" Engine
+
+entity House {
+  id: int
+}
+
+Shaft "1" o-- "N floors" Floor
+House "1" o-- "N shafts" Shaft
+
+Controller "1 controller" --o "1" House
+Shaft "1" o-- "1 cabin" Cabin
+
+Cabin o-- "doorState" DoorState
+
+SequenceOfStops "0..N SequenceOfStops" --o "1" Shaft
+
+interface Command {
+    execute()
+}
+
+class MoveCabinCommand {
+}
+class OpenDoorCommand {
+}
+class CloseDoorCommand {
+}
+class DisplayCurrentPositionCommand{
+}
+class StopCabinCommand {
+    private checkOverweight(): boolean
+    private displayOverweight(): void
+}
+
+enum OverweightState {
+    OVERWEIGHTED
+    NOT_OVERWEIGHTED
+}
+
+OverweightState "isOverweighted" --o Cabin
 
 MoveCabinCommand  ..|> Command
-
-DisplayOverweightCommand   ..|> Command
-
-CheckCabinDirectionCommand   ..|> Command
-
-OpenDoorCommand   ..|> Command
-
-CloseDoorCommand   ..|> Command
-
-DisplayCurrentPositionnCommand  ..|> Command
-
+OpenDoorCommand  ..|> Command
+CloseDoorCommand  ..|> Command
+DisplayCurrentPositionCommand  ..|> Command
 StopCabinCommand  ..|> Command
 
+CabinButton o--> Command
+FloorButton o--> Command
+
 SequenceOfStops o-- "command" Command
+
 @enduml
