@@ -1,13 +1,15 @@
 @startuml
 entity "Controller"{
 id: int
+commandMap: HashMap <String, Command>
 
-action()
-doorOpeningRestriction()
-findNearestCabin()
-addSequence()
-removeSequence()
+public doorOpeningRestriction()
+public addSequence()
+public removeSequence()
 private mergeSequence()
+
+public registerCommand(): void
+
 }
 
 enum DoorState{
@@ -128,6 +130,7 @@ Shaft "1" o-- "1 engine" Engine
 
 entity House {
   id: int
+  shafts: Shaft[]
 }
 
 Shaft "1" o-- "N floors" Floor
@@ -145,16 +148,26 @@ interface Command {
 }
 
 class MoveCabinCommand {
+    Controller: controller
 }
 class OpenDoorCommand {
+    Controller: controller
 }
 class CloseDoorCommand {
+    Controller: controller
 }
 class DisplayCurrentPositionCommand{
+    Controller: controller
 }
 class StopCabinCommand {
+    Controller: controller
+
     private checkOverweight(): boolean
     private displayOverweight(): void
+}
+
+class FindNearestCabinCommand {
+    Controller: controller
 }
 
 enum OverweightState {
@@ -169,10 +182,17 @@ OpenDoorCommand  ..|> Command
 CloseDoorCommand  ..|> Command
 DisplayCurrentPositionCommand  ..|> Command
 StopCabinCommand  ..|> Command
+FindNearestCabinCommand  ..|> Command
 
-CabinButton o--> Command
-FloorButton o--> Command
+Controller <--o MoveCabinCommand
+Controller <--o OpenDoorCommand
+Controller <--o CloseDoorCommand
+Controller <--o DisplayCurrentPositionCommand
+Controller <--o FindNearestCabinCommand
+Controller <--o StopCabinCommand
 
-SequenceOfStops o-- "command" Command
+Shaft <--o "command" Command
+
+
 
 @enduml
