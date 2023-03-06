@@ -3,26 +3,25 @@
 actor Passenger
 
 Passenger ->  FloorButton: pressDownButton()
-activate FloorButton
-FloorButton -> CommandService: getCommand("findNearestCabin", floor: int)
-CommandService --> Controller: findNearestCabinCommand
-Controller -> findNearestCabinCommand: execute
-deactivate FloorButton
-
 activate Controller
-loop 3 times
-Controller -> CommandService: getCommand("moveCabin", floor: int)
-Controller <-- CommandService: moveCabinCommand
+FloorButton -> Controller: getCommand("findNearestCabin", floor: int)
+Controller <-- Controller: findNearestCabinCommand
+Controller -> findNearestCabinCommand: execute
+
+Controller -> Controller: getCommand("moveCabin", floor: int)
+Controller <-- Controller: moveCabinCommand
 Controller -> moveCabinCommand: execute
-Controller -> CommandService: getCommand("stopCabin")
-Controller <-- CommandService: stopCabinCommand
+
+Controller -> Controller: getCommand("stopCabin")
+Controller <-- Controller: stopCabinCommand
 Controller -> stopCabinCommand: execute
-Controller -> CommandService: getCommand("openDoor")
-Controller <-- CommandService: openDoorCommand
+
+Controller -> Controller: getCommand("openDoor")
+Controller <-- Controller: openDoorCommand
 Controller -> openDoorCommand: execute
-Controller -> CommandService: getCommand("closeDoor")
-Controller <-- CommandService: closeDoorCommand
+
+Controller -> Controller: getCommand("closeDoor")
+Controller <-- Controller: closeDoorCommand
 Controller -> closeDoorCommand: execute
-end
 deactivate Controller
 @enduml

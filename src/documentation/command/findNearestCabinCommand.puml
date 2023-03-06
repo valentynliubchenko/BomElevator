@@ -1,0 +1,11 @@
+@startuml
+
+actor Controller
+
+Controller -> findNearestCabinCommand: execute(HashMap<String, String>)
+activate findNearestCabinCommand
+findNearestCabinCommand -> Shaft: addSequence()
+Shaft --> Controller: successful
+deactivate findNearestCabinCommand
+
+@enduml

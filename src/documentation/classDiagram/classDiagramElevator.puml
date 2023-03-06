@@ -60,16 +60,16 @@ abstract "FloorButton"{
   isPressed(): bool
 }
 
-entity "Up FloorButton" {
+entity "UpFloorButton" {
   id: int
 }
 
-entity "Down FloorButton" {
+entity "DownFloorButton" {
  id: int
 }
 
-"Up FloorButton" --|> "FloorButton"
-"Down FloorButton" --|> "FloorButton"
+"UpFloorButton" --|> "FloorButton"
+"DownFloorButton" --|> "FloorButton"
 
 abstract Floor{
   id: int
@@ -80,13 +80,13 @@ interface FloorWithUpButton {
   pressUpButton(): void
 }
 
-"Up FloorButton" "upButton" --o FloorWithUpButton
+"UpFloorButton" "upButton" --o FloorWithUpButton
 
 interface FloorWithDownButton {
  pressDownButton(): void
 }
 
-"Down FloorButton" "downButton" --o FloorWithDownButton
+"DownFloorButton" "downButton" --o FloorWithDownButton
 
 entity FirstFloor {
   id: int
