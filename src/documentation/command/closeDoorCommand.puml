@@ -2,7 +2,7 @@
 
 actor Controller
 
-Controller -> closeDoorCommand: execute
+Controller -> closeDoorCommand: execute(HashMap<String, String>)
 activate closeDoorCommand
 closeDoorCommand -> closeDoorCommand: checkOverweight()
 closeDoorCommand -> Cabin: change doorState to CLOSED

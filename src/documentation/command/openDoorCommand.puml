@@ -2,7 +2,7 @@
 
 actor Controller
 
-Controller -> openDoorCommand: execute
+Controller -> openDoorCommand: execute(HashMap<String, String>)
 activate openDoorCommand
 openDoorCommand -> Controller: doorOpeningRestriction()
 Controller --> openDoorCommand: successful

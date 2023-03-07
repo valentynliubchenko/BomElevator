@@ -2,7 +2,7 @@
 
 actor Controller
 
-Controller -> moveCabinCommand: execute
+Controller -> moveCabinCommand: execute(HashMap<String, String>)
 activate moveCabinCommand
 moveCabinCommand -> Engine: change engineState to GOING_DOWN
 deactivate moveCabinCommand

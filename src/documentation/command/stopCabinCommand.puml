@@ -2,7 +2,7 @@
 
 actor Controller
 
-Controller -> stopCabinCommand: execute
+Controller -> stopCabinCommand: execute(HashMap<String, String>)
 activate stopCabinCommand
 stopCabinCommand -> Engine: change engineState to STAYING
 stopCabinCommand -> SequenceOfStops: remove stop
